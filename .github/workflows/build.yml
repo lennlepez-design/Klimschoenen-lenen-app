@@ -24,9 +24,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Install System Dependencies
         run: |
           sudo apt-get update
@@ -52,13 +49,15 @@ jobs:
           python -m pip install --upgrade pip setuptools
           pip install "buildozer>=1.5.0" "cython<3.0.0"
 
-      - name: Link Android SDK for Buildozer
+      - name: Setup Android SDK Path and Accept Licenses
         run: |
+          # Maak de mappenstructuur voor Buildozer aan
           mkdir -p ~/.buildozer/android/platform
+          
+          # Link de voorgeïnstalleerde Android SDK van GitHub naar Buildozer
           ln -s $ANDROID_HOME ~/.buildozer/android/platform/android-sdk
 
-      - name: Accept Android SDK Licenses
-        run: |
+          # Accept alle licenties via de ingebouwde sdkmanager
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Build APK with Buildozer
