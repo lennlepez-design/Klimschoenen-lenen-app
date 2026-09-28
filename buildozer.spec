@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = Mijn App
+title = Leen klimschoenen bijhouden
 
 # (str) Package name
-package.name = mijnapp
+package.name = LeenKlimschoenen
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.LennLepez
 
 # (str) Source code where the main.py live
 source.dir = .
