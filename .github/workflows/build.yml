@@ -30,14 +30,9 @@ jobs:
           sudo apt-get install -y build-essential libsqlite3-dev zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev ccache libffi7 gettext autopoint zip unzip
           pip install --upgrade pip setuptools "buildozer>=1.5.0" "cython<3.0.0"
 
-      - name: Accept Android SDK Licenses
-        run: |
-          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
-          echo -e "\n24333f8a637b3a44ea6c2813f600e50517881736\nd58f57339023e157a475f7c6d34d3c8d59197860\n24333f8a637b3a44ea6c2813f600e50517881736" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-
       - name: Build APK with Buildozer
         run: |
-          yes | buildozer -v android debug
+          buildozer -v android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
