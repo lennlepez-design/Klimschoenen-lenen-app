@@ -6,6 +6,15 @@ title = Klimschoenen App
 # (str) Package name
 package.name = klimschoenenapp
 
+# (int) Target Android API, should be the maximum of the available SDK (-1=latest available)
+android.api = 33
+
+# (int) Minimum API your APK will support.
+android.minapi = 21
+
+# (str) Android NDK version to use
+android.ndk = 25b
+
 # (bool) Accept SDK license agreeement automatically
 android.accept_sdk_license = True
 
