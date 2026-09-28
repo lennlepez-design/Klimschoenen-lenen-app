@@ -50,15 +50,21 @@ jobs:
           python -m pip install --upgrade pip setuptools
           pip install "buildozer>=1.5.0" "cython<3.0.0"
 
-      - name: Pre-install Android SDK Command-line Tools
+      - name: Setup Android SDK and Symlinks
         run: |
+          # 1. Mappen structuur aanmaken
           mkdir -p ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest
-          curl -s https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o commandlinetools.zip
+          
+          # 2. Commandline tools downloaden en uitpakken
+          curl -s https://dl.google.com/android/repository/commandlinetools-linux-9441913_latest.zip -o commandlinetools.zip
           unzip -q commandlinetools.zip
           mv cmdline-tools/* ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest/
           rm -rf cmdline-tools commandlinetools.zip
+          
+          # 3. Symlink maken voor de legacy 'tools' map waar Buildozer naar zoekt
+          ln -s ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest ~/.buildozer/android/platform/android-sdk/tools
 
-      - name: Accept Android SDK Licenses automatically
+      - name: Accept Android SDK Licenses
         run: |
           mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
           echo -e "\n89339e83541213a36d713a23a318274831122709\n24333f8a63718731143213b28f323e01" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
