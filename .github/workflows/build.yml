@@ -1,0 +1,31 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch: # Hierdoor kun je de build handmatig starten met een knop
+  push:
+    branches: [ main, master ] # Bouwt automatisch bij elke push naar main/master
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build with Buildozer
+        uses: ArtemSundarev/buildozer-action@v1.2
+        with:
+          command: buildozer -v android debug
+          subfolder: .
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: bin/*.apk
