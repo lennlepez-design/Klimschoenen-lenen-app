@@ -1,49 +1,52 @@
 [app]
 
 # (str) Title of your application
-title = Klimschoenen App
+title = Mijn App
 
 # (str) Package name
-package.name = klimschoenenapp
-
-# (int) Target Android API, should be the maximum of the available SDK (-1=latest available)
-android.api = 33
-
-# (int) Minimum API your APK will support.
-android.minapi = 21
-
-# (str) Android NDK version to use
-android.ndk = 25b
-
-# (bool) Accept SDK license agreeement automatically
-android.accept_sdk_license = True
+package.name = mijnapp
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
 
-# (str) Application version
-version = 0.1
-
 # (str) Source code where the main.py live
 source.dir = .
 
-# (list) Source files to include (let empty to include all the files)
+# (list) Source files to include (let empty to include all the base dir)
 source.include_exts = py,png,jpg,kv,atlas
 
+# (str) Application version
+version = 0.1
+
 # (list) Application requirements
-# Hier staat de aangepaste regel met Python 3.11 direct goed in!
-requirements = python3==3.11.9, hostpython3==3.11.9, kivy, requests
+# Let op: Kivy / Cython vereisten
+requirements = python3,kivy
 
-# (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
-orientation = portrait
+# (bool) Accept SDK license agreement automatically
+android.accept_sdk_license = True
 
-# (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
+# (int) Target Android API
+android.api = 33
+
+# (int) Minimum Android API supported
+android.minapi = 21
+
+# (str) Android NDK version
+android.ndk = 25b
+
+# (bool) Use --private data storage (True) or --dir public storage (False)
+android.private = True
+
+# (list) Permissions
+android.permissions = INTERNET
+
+# (list) Architectures to build for
+android.archs = arm64-v8a, armeabi-v7a
 
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
 log_level = 2
 
-# (int) Display warning if buildozer is run as root (0 = false, 1 = true)
+# (int) Display warning if buildozer is run as root (1 = display, 0 = hide)
 warn_on_root = 1
