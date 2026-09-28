@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -24,11 +24,37 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libsqlite3-dev zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev ccache libffi7 gettext autopoint zip unzip
-          pip install --upgrade pip setuptools "buildozer>=1.5.0" "cython<3.0.0"
+          sudo apt-get install -y \
+            build-essential \
+            libsqlite3-dev \
+            zlib1g-dev \
+            libncurses5-dev \
+            libgdbm-dev \
+            libnss3-dev \
+            libssl-dev \
+            libreadline-dev \
+            libffi-dev \
+            ccache \
+            libffi7 \
+            gettext \
+            autopoint \
+            zip \
+            unzip
+
+      - name: Install Python Tools and Buildozer
+        run: |
+          python -m pip install --upgrade pip setuptools
+          pip install "buildozer>=1.5.0" "cython<3.0.0"
+
+      - name: Accept Android SDK Licenses automatically
+        run: |
+          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
+          echo -e "\n89339e83541213a36d713a23a318274831122709\n24333f8a63718731143213b28f323e01" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
+          echo -e "\n84831b9402116e267b93703eed74c11d3202970a" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
+          echo -e "\nd937142e067f4533b7e42d34080b2840d0752b31" > ~/.buildozer/android/platform/android-sdk/licenses/android-googletv-license
 
       - name: Build APK with Buildozer
         run: |
