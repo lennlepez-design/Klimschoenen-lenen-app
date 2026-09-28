@@ -9,6 +9,9 @@ package.name = klimschoenenapp
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
 
+# (str) Application version
+version = 0.1
+
 # (str) Source code where the main.py live
 source.dir = .
 
