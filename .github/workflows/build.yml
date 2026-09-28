@@ -24,6 +24,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Install System Dependencies
         run: |
           sudo apt-get update
@@ -42,34 +45,21 @@ jobs:
             gettext \
             autopoint \
             zip \
-            unzip \
-            curl
+            unzip
 
       - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip setuptools
           pip install "buildozer>=1.5.0" "cython<3.0.0"
 
-      - name: Setup Android SDK and Symlinks
+      - name: Link Android SDK for Buildozer
         run: |
-          # 1. Mappen structuur aanmaken
-          mkdir -p ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest
-          
-          # 2. Commandline tools downloaden en uitpakken
-          curl -s https://dl.google.com/android/repository/commandlinetools-linux-9441913_latest.zip -o commandlinetools.zip
-          unzip -q commandlinetools.zip
-          mv cmdline-tools/* ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest/
-          rm -rf cmdline-tools commandlinetools.zip
-          
-          # 3. Symlink maken voor de legacy 'tools' map waar Buildozer naar zoekt
-          ln -s ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest ~/.buildozer/android/platform/android-sdk/tools
+          mkdir -p ~/.buildozer/android/platform
+          ln -s $ANDROID_HOME ~/.buildozer/android/platform/android-sdk
 
       - name: Accept Android SDK Licenses
         run: |
-          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
-          echo -e "\n89339e83541213a36d713a23a318274831122709\n24333f8a63718731143213b28f323e01" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-          echo -e "\n84831b9402116e267b93703eed74c11d3202970a" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
-          echo -e "\nd937142e067f4533b7e42d34080b2840d0752b31" > ~/.buildozer/android/platform/android-sdk/licenses/android-googletv-license
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Build APK with Buildozer
         run: |
