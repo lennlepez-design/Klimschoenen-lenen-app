@@ -19,7 +19,6 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 0.1
 
 # (list) Application requirements
-# Let op: Kivy / Cython vereisten
 requirements = python3,kivy
 
 # (bool) Accept SDK license agreement automatically
